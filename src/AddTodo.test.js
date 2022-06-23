@@ -19,25 +19,41 @@ afterEach(() => {
 
 
 
- test('test that App component doesn\'t render dupicate Task', () => {
+ test('that App component doesn\'t render dupicate Task', () => {
+  render(<App />);
+  const inputTask = screen.getByRole('textbox', {name: /Add New Item/i});
+  const inputDate = screen.getByPlaceholderText("mm/dd/yyyy");
+  const element = screen.getByRole('button', {name: /Add/i});
+  const dueDate = "05/30/2023";
+  fireEvent.change(inputTask, { target: { value: "Duplicate Test"}});
+  fireEvent.change(inputDate, { target: { value: dueDate}});
+  fireEvent.click(element);
+
+  fireEvent.change(inputTask, { target: { value: "Duplicate Test"}});
+  fireEvent.change(inputDate, { target: { value: dueDate}});
+  fireEvent.click(element);
+  const check = screen.getAllByText(/Duplicate Test/i);
+
+  expect(check.length).toBe(1);
+ });
+
+ test('that App component doesn\'t add a task without task name', () => {
+  render(<App />);
+
+  
+ });
+
+ test('that App component doesn\'t add a task without due date', () => {
   render(<App />);
  });
 
- test('test that App component doesn\'t add a task without task name', () => {
-  render(<App />);
- });
-
- test('test that App component doesn\'t add a task without due date', () => {
-  render(<App />);
- });
 
 
-
- test('test that App component can be deleted thru checkbox', () => {
+ test('that App component can be deleted thru checkbox', () => {
   render(<App />);
  });
 
 
- test('test that App component renders different colors for past due events', () => {
+ test('that App component renders different colors for past due events', () => {
   render(<App />);
  });
